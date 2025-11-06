@@ -10,4 +10,8 @@
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" Version="9.0.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="HealthCheckUIs\" />
+  </ItemGroup>
+
 </Project>
