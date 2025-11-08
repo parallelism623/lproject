@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace lproject.Lib.HealthChecks;
+namespace lproject.HealthChecks.HealthChecks;
 
 public class DefaultHealthChecks : IHealthCheck
 {

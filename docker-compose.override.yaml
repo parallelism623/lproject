@@ -1,0 +1,22 @@
+
+services:
+  lproject.api:
+    depends_on:
+      - lproject.EfCore.sql
+    ports: 
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+  lproject.EfCore.sql:
+    ports: 
+      - "1433:1433"
+    environment: 
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=admin123A@
+    restart: always
+    volumes: 
+      - ./EfCore_sql_data:/var/opt/mssql
+
+
+  

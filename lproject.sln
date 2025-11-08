@@ -8,9 +8,17 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		docker-compose.yaml = docker-compose.yaml
+		docker-compose.override.yaml = docker-compose.override.yaml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lproject.Lib", "lproject.Lib\lproject.Lib.csproj", "{DC712119-D173-40BA-829D-78AC0DE20D49}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lproject.HealthChecks", "lproject.HealthChecks\lproject.HealthChecks.csproj", "{DC712119-D173-40BA-829D-78AC0DE20D49}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{69B4DAD8-AC4D-4828-A4A4-53C86DAF8D45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lproject.EFCore", "lproject.EFCore\lproject.EFCore.csproj", "{7497B8B9-41EB-4B42-AEE1-FE09A2C63989}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EfCore_sql_data", "EfCore_sql_data", "{FA04842F-1396-48E5-BB6D-1CF897679758}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,11 +34,20 @@ Global
 		{DC712119-D173-40BA-829D-78AC0DE20D49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC712119-D173-40BA-829D-78AC0DE20D49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC712119-D173-40BA-829D-78AC0DE20D49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7497B8B9-41EB-4B42-AEE1-FE09A2C63989}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7497B8B9-41EB-4B42-AEE1-FE09A2C63989}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7497B8B9-41EB-4B42-AEE1-FE09A2C63989}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7497B8B9-41EB-4B42-AEE1-FE09A2C63989}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {31C68A74-8E2C-45A8-8CA4-7194FF9EFFC8}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DC712119-D173-40BA-829D-78AC0DE20D49} = {69B4DAD8-AC4D-4828-A4A4-53C86DAF8D45}
+		{7497B8B9-41EB-4B42-AEE1-FE09A2C63989} = {69B4DAD8-AC4D-4828-A4A4-53C86DAF8D45}
+		{FA04842F-1396-48E5-BB6D-1CF897679758} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 EndGlobal

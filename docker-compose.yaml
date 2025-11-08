@@ -1,0 +1,11 @@
+﻿version: '3.9'
+services:
+  lproject.api:
+    image: lproject.api
+    build:
+      context: .
+      dockerfile: lproject.API/Dockerfile
+  lproject.EfCore.sql:
+    image: mcr.microsoft.com/mssql/server:latest
+    container_name: lproject.EfCore.sql
+    
