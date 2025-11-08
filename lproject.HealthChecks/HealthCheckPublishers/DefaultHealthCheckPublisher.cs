@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace lproject.Lib.HealthChecks;
-public class AppHealthCheckPublisher : IHealthCheckPublisher
+namespace lproject.HealthChecks.HealthCheckPublishers;
+public class DefaultHealthCheckPublisher : IHealthCheckPublisher
 {
     public Task PublishAsync(HealthReport report, CancellationToken cancellationToken)
     {
-        Console.WriteLine("App");
+        Console.WriteLine("Test");
         return Task.CompletedTask;
     }
 }

@@ -1,5 +1,6 @@
-using lproject.Lib.HealthCheckPublishers;
-using lproject.Lib.HealthChecks;
+using lproject.EFCore;
+using lproject.HealthChecks.HealthCheckPublishers;
+using lproject.HealthChecks.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,8 +15,8 @@ builder.Services.Configure<HealthCheckPublisherOptions>(options =>
     options.Predicate = healthCheck => healthCheck.Tags.Contains("sample"); 
     options.Period = TimeSpan.FromSeconds(5);
 });
-builder.Services.AddSingleton<IHealthCheckPublisher, DefaultHealthCheckPublisher>();
 builder.Services.AddSingleton<IHealthCheckPublisher, AppHealthCheckPublisher>();
+builder.Services.EfCoreRegisterServices(builder.Configuration);
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -29,5 +30,5 @@ app.MapHealthChecks("/healthz")
 app.UseAuthorization();
 
 app.MapControllers();
-
+await Excute.GeneratedValueRunTest(app.Services);
 app.Run();
