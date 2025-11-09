@@ -24,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\lproject.EFCore\lproject.EFCore.csproj" />
     <ProjectReference Include="..\lproject.HealthChecks\lproject.HealthChecks.csproj" />
+    <ProjectReference Include="..\lproject.HostConfiguration\lproject.HostConfiguration.csproj" />
   </ItemGroup>
 
 </Project>
