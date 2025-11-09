@@ -125,7 +125,7 @@ The ***CreateDefaultBuilder*** method:
     - Environment variables
     - Command-line arguments
 - Add the following logging providers
-- Enables scope validation và dependency validation
+- Enables scope validation và dependency validation in development environment
 
 The ***ConfigureWebHostDefaults*** method:
 
