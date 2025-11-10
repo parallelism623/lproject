@@ -1,5 +1,6 @@
 using lproject.EFCore;
 using lproject.HealthChecks.HealthCheckPublishers;
+using lproject.HostConfiguration;
 using lproject.HealthChecks.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
@@ -15,8 +16,8 @@ builder.Services.Configure<HealthCheckPublisherOptions>(options =>
     options.Predicate = healthCheck => healthCheck.Tags.Contains("sample"); 
     options.Period = TimeSpan.FromSeconds(5);
 });
+builder.Services.RegisterHostedServices();
 builder.Services.AddSingleton<IHealthCheckPublisher, AppHealthCheckPublisher>();
-builder.Services.EfCoreRegisterServices(builder.Configuration);
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -28,7 +29,5 @@ app.UseHttpsRedirection();
 app.MapHealthChecks("/healthz")
     .RequireHost("*:6263");
 app.UseAuthorization();
-
 app.MapControllers();
-await Excute.GeneratedValueRunTest(app.Services);
-app.Run();
+app.Run("https://localhost:3000");
