@@ -1,70 +1,196 @@
-**Multithreading** là mô hình cho phép một tiến trình (process) có nhiều luồng thực thi (threads) hoạt động đồng thời.
+**Multithreading** is a model that allows a single process to have multiple threads executing concurrently.
 
-Trong hệ thống đơn nhân (single-core), CPU có thể **chuyển đổi nhanh** giữa các thread để xử lý những công việc khác nhau, khiến ta *cảm giác* như chúng đang chạy song song.
+In a single-core system, the CPU can switch between threads to handle different tasks, giving the *illusion* that they are running simultaneously.
 
-Khi có nhiều nhân CPU hơn (multi-core), mỗi core có thể xử lý một thread độc lập, giúp nhiều thread **thực sự chạy đồng thời** (parallel execution).
+When multiple CPU cores are available (multi-core), each core can process one thread independently, allowing multiple threads to **actually run in parallel**.
 
-Mỗi thread tồn tại với những trạng thái nhất định như **Running**, **Ready**, **Blocked**, hoặc **Terminated**.
+Each thread exists in certain states such as **Running**, **Ready**, **Blocked**, or **Terminated**.
 
-Tại bất kỳ thời điểm nào, **CPU core** sẽ chọn một thread ở trạng thái **Ready** để thực thi (chuyển sang **Running**).
+At any given time, a **CPU core** will select one thread in the **Ready** state to execute (switch to **Running**).
 
-Thread đó sẽ tiếp tục chạy cho đến khi hoàn thành hoặc khi gặp một tình huống khiến nó phải **tạm dừng** (Blocked) — chẳng hạn như đọc/ghi file, chờ dữ liệu từ mạng, hoặc thao tác I/O nói chung.
+The thread continues to run until completion or until it encounters a situation that causes it to **pause** (Blocked) — such as reading/writing files, waiting for network data, or performing I/O operations in general.
 
-Những thao tác khiến thread tạm dừng được gọi là **blocking operations**.
+These operations that cause a thread to pause are called **blocking operations**.
 
-Khi thread bị block, nó sẽ “ngủ” cho đến khi hệ điều hành thông báo rằng tác vụ bên ngoài (I/O, timer, network...) đã hoàn thành.
+When a thread is blocked, it “sleeps” until the operating system notifies that the external operation (I/O, timer, network, etc.) is completed.
 
-Mỗi thread có **vùng nhớ cục bộ (local stack)** riêng, và việc chuyển đổi qua lại giữa các thread (**context switching**) đều tốn chi phí CPU.
+Each thread has its own **local stack memory**, and switching between threads (**context switching**) incurs CPU overhead.
 
-Nếu chương trình có nhiều blocking operation mà mỗi operation lại chiếm giữ một thread riêng, rất nhiều thread sẽ ở trạng thái idle — không thực thi nhưng vẫn chiếm tài nguyên.
+If a program has many blocking operations and each operation holds a separate thread, many threads will remain idle — not executing but still consuming resources.
 
-Trong trường hợp có hàng trăm hoặc hàng nghìn tác vụ I/O cùng chờ, hệ thống có thể phải tạo ra hàng nghìn thread → gây quá tải, tiêu tốn RAM và CPU → ứng dụng có thể **chậm hoặc crash**.
+When hundreds or thousands of I/O tasks are waiting, the system may need to create thousands of threads → leading to overload, consuming RAM and CPU → the application may **slow down or crash**.
 
-Để giải quyết vấn đề này, **asynchronous programming** ra đời như một cơ chế **giải phóng thread** khỏi việc chờ đợi.
+To solve this problem, **asynchronous programming** was introduced as a mechanism to **free threads** from waiting.
 
-Khi gặp một blocking operation, thread không cần ngồi chờ mà có thể **trả lại quyền điều khiển** cho hệ điều hành, để thực hiện công việc khác.
+When encountering a blocking operation, the thread doesn’t need to wait but can **return control** to the operating system to perform other tasks.
 
-Khi operation hoàn tất, hệ điều hành (hoặc runtime) **phát tín hiệu (event)** báo cho chương trình biết, và một thread khả dụng (thường từ thread pool) sẽ **xử lý phần tiếp theo (continuation)** của tác vụ đó.
+When the operation is completed, the operating system (or runtime) **signals an event** to notify the program, and an available thread (usually from a thread pool) will **process the continuation** of that task.
 
-Nhờ cơ chế này, chương trình có thể **kết hợp lợi ích của multithreading và async programming**:
+Thanks to this mechanism, a program can **combine the benefits of multithreading and async programming**:
 
-- Multithreading giúp **chạy nhiều tác vụ logic cùng lúc** (CPU-bound hoặc I/O-bound).
-- Async programming giúp **giảm lãng phí tài nguyên** bằng cách không để thread bị kẹt ở các tác vụ I/O.
+- Multithreading allows **executing multiple logical tasks at once** (CPU-bound or I/O-bound).
+- Async programming helps **reduce resource waste** by not keeping threads stuck on I/O tasks.
 
-Trong thực tế, khi một blocking operation đang diễn ra, chương trình (nếu không phụ thuộc vào kết quả của operation đó) vẫn có thể **tiếp tục thực thi các phần việc khác**, và chỉ tạm dừng lại khi thật sự cần kết quả của operation — điều này mang lại hiệu năng cao, khả năng phản hồi nhanh, và khả năng mở rộng tốt hơn.
+In practice, when a blocking operation occurs, the program (if it doesn’t depend on that operation’s result) can **continue executing other tasks**, pausing only when the result is actually needed — leading to better performance, responsiveness, and scalability.
 
 ## Parallel Execution
 
 ### Thread
 
-Khi một proces start nó sẽ bắt đầu với một main thread run trên Main method (có thể có một số thread system bên cạnh nó)
+When a process starts, it begins with a main thread running on the Main method (it may have some system threads alongside).
 
-Có thể tạo thêm thread bổ sung để thực hiện các công việc mong muốn, trong C#, class Thread đại diện cho một thread được sử dụng bên dưới:
+Additional threads can be created to perform desired tasks. In C#, the Thread class represents a thread, used as follows:
 
 ```csharp
-var thread = new Thread(delegate) 
-// Delegate là một function void có một tham số object? hoặc không có.
-thread.Start(object)
-// Truyền tham số cho delegate.
+var thread = new Thread(delegate);
+// Delegate is a void function with an optional object parameter.
+thread.Start(object);
+// Pass parameter to delegate.
 ```
 
-Việc construct/deconstruct thread object sử dụng tương đối lượng tài nguyên nhạy cảm, vì vậy việc tạo và huỷ chúng nhiều cũng có thể dẫn tới phần lớn thời gian nó dùng để quản lí việc khỏi tạo/huỷ bỏ thay vì thực hiện công việc được gán trong delegate.
+Constructing and destructing thread objects consumes significant system resources, so creating and destroying them repeatedly may lead to more time spent managing threads rather than executing assigned work.
 
-Vì vậy lí tưởng nhất sử dụng Thread.Start cho các long-running tasks, bên cạnh đó không dùng cho async/await, short tasks.
+Therefore, it’s ideal to use Thread.Start for long-running tasks, and not for async/await or short tasks.
 
 ### Thread pool
 
-Thread pool là nơi chứa một số thread được khởi tạo sẵn mục đích sử dụng cho các short-running tasks. Các short-running tasks thay phiên nhau sử dụng thread từ thread pool mà không có thêm constructor/deconstructor thread object nào.
+A thread pool contains a number of pre-created threads for short-running tasks. These tasks take turns using threads from the pool without creating or destroying thread objects. It’s not recommended to modify the settings of thread pool threads or related components.
 
 ```csharp
-ThreadPool.QueueUserWorkItem(delegate, object? paramOfDelegate); 
+ThreadPool.QueueUserWorkItem(delegate, object? paramOfDelegate);
 ```
 
 ### Task.Run
 
-Task.Run(task) cũng sử dụng ThreadPool nhằm mục đích hạn chế việc cấp phát/giải phóng Thread object. Bởi vì các Task cũng là các short-running tasks, vì phần lớn workload của chúng thực hiện bởi các component outside CPU.
+Task.Run(task) also uses the ThreadPool to minimize thread allocation/deallocation. Since Tasks are generally short-running, most of their workload is performed by components outside the CPU.
 
 ```csharp
-Task.Run(Task)
-Task.Run(() => Task)
+Task.Run(Task);
+Task.Run(() => Task);
 ```
+
+### Accessing Data From Multiple Threads
+
+In some cases, local data can be shared across multiple threads, leading to race conditions.
+
+We can make data immutable, use the Mutex class (representing an OS-level mutex), or use the ***lock*** statement.
+
+The lock statement is a lightweight internal .NET implementation, faster than the Mutex class since it doesn’t require a system call. While immutability fits functional programming, in typical C# development, the ***lock*** statement is usually preferred.
+
+```csharp
+var objectLock = new object();
+lock (objectLock) { ++theValue; }
+```
+
+Each ***lock*** statement requires a lock object and a following code block. When execution enters the code block, the object is locked, and once it exits, the object is released.
+
+Deadlocks are an important issue in threading and locking. In general, a deadlock occurs when one or more threads wait for something that will never happen. The simplest case: thread A waits for thread B to complete, while thread B waits for thread A.
+
+Lock objects should typically be private for safety and easier control, reducing deadlock risks.
+
+### Thread Synchronization
+
+Thread synchronization is the technique of coordinating threads to share data or actions without causing race conditions.
+
+Besides the lock statement, C# supports ManualResetEventSlim — a multithreading synchronization method allowing one thread to wait for another to proceed in a coordinated way. There are also other synchronization collections and classes.
+
+For example, the Interlocked class allows thread-safe and lock-free operations but has some limitations:
+
+- Limited operation types and variable types.
+- It protects methods rather than variables — variables used elsewhere may not remain thread-safe.
+- Composing thread-safe operations rarely results in overall thread safety.
+- It doesn’t guarantee that the retrieved value is the most recent one.
+
+### Async with Multithreading
+
+You can use Task.Run(async () => { await ... }) to leverage both multithreading and async programming. When Task.Run() is called, the async method is passed to the thread pool for processing, and execution continues immediately without waiting for the async method until it reaches await or returns a Task. This is particularly useful when invoking multiple tasks before awaiting all of them — Task.Run() allows near-instant invocation.
+
+```csharp
+public async Task Process10Files() {
+    var tasks = new Task[10];
+    for (int i = 0; i < 10; ++i) {
+        var icopy = i;
+        tasks[i] = Task.Run(async () => {
+            await File.ReadAllBytesAsync($"{icopy}.txt");
+            Console.WriteLine("Doing something with the file's content");
+        });
+    }
+    await Task.WhenAll(tasks);
+}
+```
+
+- The continuation logic after await depends on the application type. In WF/WPF apps, it usually runs on the same UI thread due to SynchronizationContext.
+- In ASP.NET Framework apps (before 4.8), continuation also runs on the same thread.
+- In modern ASP.NET Core apps, continuations typically run on a thread pool thread.
+    - If await is used within a manually created thread, that thread ends, and continuation runs on the thread pool.
+
+Data used inside async/await can be accessed by multiple threads, so thread-safe data types or proper locking should be used.
+
+Also, since Task.Run() executes on another thread, you should await Task.Run() on UI threads to ensure continuation runs on the correct UI thread.
+
+### Multithreading Pitfalls
+
+Concurrency is performing multiple tasks within a time frame — either interleaved or parallel.
+
+Multithreading enables concurrency; even a single-core CPU can run multiple threads, switching between them to handle multiple tasks.
+
+Thread safety ensures that a program’s output is consistent and predictable even when accessed by multiple threads.
+
+A race condition occurs when the program’s output depends on the timing or order of thread execution, leading to inconsistent results.
+
+### Pitfalls
+
+**Partial updates**  
+
+This can occur in multithreading environments when one thread updates shared data, but another reads it midway. The shared data ends up in a mixed state of old and new values. Use ‘lock’ for shared data among threads.
+
+**Access memory ordering**  
+
+This refers to instruction reordering by the compiler or CPU to optimize pipelines and execution units. Access memory refers to internal CPU operations. Each CPU instruction is measured in **clock cycles**. A 3GHz CPU performs 3 billion cycles per second. Fewer clock cycles → faster operation. Optimized memory access patterns can minimize slow operations and even skip some fast ones. The CPU computes using internal variables stored in **registers**.
+
+```csharp
+var a = 0;
+for (int i = 0; i < 100; i++) {
+    a += 1;
+}
+// Machine code like
+set register to 0  // fast: inside CPU
+store register to memory location "a" // slow
+for (int i = 0; i < 100; i++) {
+    load from memory location "a" into register // slow
+    increment value // fast
+    load into memory location // slow
+}
+// 201 slow operations, 101 fast operations
+
+// Optimized
+set register to 0
+for (int i = 0; i < 100; i++) {
+    increment value
+}
+load into memory location "a"
+// 101 fast
+// 1 slow
+```
+
+Thus, threads may see data changes differently. However, C# code uses *acquire semantics, release semantics, memory barriers* to ensure data consistency during CPU execution.
+
+**Deadlock**  
+
+Occurs when a thread gets stuck waiting for unavailable resources. A simple case: thread A holds resource A while waiting for resource B, and thread B holds resource B while waiting for resource A. Both are stuck waiting for each other.
+
+**Race condition**  
+
+### Lock usage rules
+
+Use locks for shared data.
+
+Follow consistent lock order across threads.
+
+Use locks that cover enough logic to prevent race conditions but not so long that threads become sequential or synchronous. There’s no perfect duration; trade-offs are required — choosing between accuracy and performance.
+
+Avoid running uncontrolled logic inside locks.
+
+Don’t modify thread priority or processor affinity.
+
+Composing multiple thread-safe operations rarely results in thread safety; instead, use a lock that covers those operations.
