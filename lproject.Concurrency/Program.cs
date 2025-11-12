@@ -4,7 +4,7 @@ using System.Collections;
 
 
 Console.WriteLine("Start Main Thread");
-await TaskRunExample.RunInBackground();   
+DeadlockExample.ThreadA();
 Console.WriteLine("Stop Main Thread");
 
 
