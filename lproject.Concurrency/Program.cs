@@ -1,13 +1,12 @@
-﻿using lproject.Concurrency.MultiThreading;
+﻿using lproject.Concurrency.Multithreading;
+using lproject.Concurrency.MultiThreading;
 using System.Collections;
 
 
 
 Console.WriteLine("Start Main Thread");
-DeadlockExample.ThreadA();
+var workQueueItem = new WorkQueuePatternExample();
+var thread = new Thread(workQueueItem.Start);
 Console.WriteLine("Stop Main Thread");
 
-
-// sleep prevent IHost shutdown.
-await Task.Delay(2000);
 
