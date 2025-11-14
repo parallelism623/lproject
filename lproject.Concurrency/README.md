@@ -273,3 +273,73 @@ var registration = cancellation.Token.Register(() =>
     tcs.TrySetCanceled(cancellationTokenSource.Token);
 });
 ```
+### Thread-safe Collections
+
+You can use a `lock` for collections that are accessed (possibly concurrently) from multiple threads. However, this approach introduces several issues:
+
+- **Locking the entire operation** (both read and write) even when there is no data → results in unnecessary lock overhead.
+- **Locking individual read–then–write operations** (e.g., read first, then write if missing) does not guarantee thread-safety and may still cause race conditions.
+
+---
+
+### Concurrent Collections
+
+Concurrent collections use fine-grained locking strategies and lock-free techniques to ensure thread-safety.
+
+### `ConcurrentDictionary<TKey, TValue>`
+
+- `TryGetValue`
+- `TryAdd`
+- `GetOrAdd`  
+  When implementing strategies such as cache-aside:
+    - You might first call `TryGetValue` to retrieve data.
+    - If not found, you initialize a new value and call `TryAdd`.
+    - This pattern still allows the possibility that multiple threads initialize and write data at the same time, causing one thread to override the other's data.
+
+  `GetOrAdd` ensures that the value created by the first thread is the one used by all other threads.
+
+- `TryRemove`
+- `TryUpdate(key, newValue, oldValue)`  
+  Returns `false` if the current value of the key differs from `oldValue`.  
+  Otherwise, it updates the value to `newValue` and returns `true`.
+
+---
+
+### `BlockingCollection<T>`
+
+- A blocking producer–consumer abstraction built on top of other concurrent collections:  
+  `ConcurrentQueue<T>`, `ConcurrentStack<T>`, `ConcurrentBag<T>`.
+- Supports storing and retrieving items in order.
+- Supports **Add/Take until** operations: these operations block until conditions allow the operation to proceed.
+- `Add` / `TryAdd` both add items into the underlying collection.  
+  Both block until an item is removed; however, `TryAdd` supports a timeout.
+- Similarly, `Take` / `TryTake`.
+- `GetConsumingEnumerable` returns an `IEnumerable<T>` that allows `foreach` to process each item and remove it when consumed.
+- `CompleteAdding` signals that no more items will be added.  
+  All `GetConsumingEnumerable` loops end once existing items are consumed.
+- `BlockingCollection` **does not** support `async/await`.
+
+---
+
+### `Channel<T>`
+
+- Supports `async/await` and is thread-safe for **multiple producers** and **multiple consumers**.
+- `Channel.Reader` is used to read items from the channel.
+- `Channel.Writer` is used to write items into the channel.
+
+---
+
+### Other Concurrent Collections
+
+- `ConcurrentQueue<T>`
+- `ConcurrentStack<T>`
+
+---
+
+### Immutable Collections
+
+- Immutable collections avoid threading issues by ensuring thread-safety through immutability:  
+  whenever a write operation occurs, the thread receives a **new copy** of the collection that includes the updated value.
+- Internally, immutable collections use persistent data structures that allow **structure sharing** across multiple copies.
+- Immutable collection **variables** themselves may not be thread-safe if reassigned after each write operation.  
+  Use `ImmutableInterlocked` with the appropriate methods to ensure thread-safe updates.
