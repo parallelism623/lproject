@@ -1,12 +1,12 @@
-﻿using lproject.Concurrency.Multithreading;
+﻿using lproject.Concurrency.EnumerableExample.cs;
+using lproject.Concurrency.Multithreading;
 using lproject.Concurrency.MultiThreading;
 using System.Collections;
 
 
 
 Console.WriteLine("Start Main Thread");
-var workQueueItem = new WorkQueuePatternExample();
-var thread = new Thread(workQueueItem.Start);
+await ImplementIEnumerable.UseYieldDemo();
 Console.WriteLine("Stop Main Thread");
 
 

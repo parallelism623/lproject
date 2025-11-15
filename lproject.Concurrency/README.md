@@ -343,3 +343,109 @@ Concurrent collections use fine-grained locking strategies and lock-free techniq
 - Internally, immutable collections use persistent data structures that allow **structure sharing** across multiple copies.
 - Immutable collection **variables** themselves may not be thread-safe if reassigned after each write operation.  
   Use `ImmutableInterlocked` with the appropriate methods to ensure thread-safe updates.
+### IEnumerable, IEnumerator, IAsyncEnumerable
+
+-   `IEnumerable` is used to access item sequences on the fly or from an
+    external source without needing to load everything into memory.
+
+-   `foreach` is the syntax that allows iterating and retrieving items
+    from an `IEnumerable`:
+
+``` csharp
+foreach(var item in IEnumerable){
+    Console.WriteLine(item); // item.ToString()
+}
+```
+
+-   Compiler transformation:
+
+``` csharp
+using(var enumerator = IEnumerable.GetEnumerator()){
+    while(enumerator.MoveNext()){
+        var item = enumertor.Current;
+        Console.WriteLine(item);
+    }
+}
+```
+- IEnumerable.GetEnumerator returns an IEnumerator. When a method uses yield return, the compiler automatically generates the entire iterator implementation. Instead of writing the iterator manually, the compiler rewrites the method into a state machine. In this state machine, MoveNext() advances the execution to the next yield point, and Current holds the value produced by that yield return.
+
+``` csharp
+public class TestEnumerator : IEnumerator<T>
+{
+    private int state;
+    private T current;
+    public T Current => current;
+    ...
+    public bool MoveNext()
+    {
+        switch (state)
+        {
+            case 0:
+                current = itemCurrent;
+                state = 1;
+                return true;
+
+            case 1:
+                state = -1;
+                break;
+        }
+
+        return false;
+    }
+}
+```
+
+-   `IAsyncEnumerable` is similar to `IEnumerable`, but adds syntax for
+    async programming:
+    -   `MoveNextAsync()` returns a `ValueTask` instead of
+        `void MoveNext()`
+    -   `GetAsyncEnumerator()` returns an `IAsyncEnumerator()` instead
+        of `IEnumerator()`
+    -   There is no direct way to pass a `CancellationToken` into
+        `GetAsyncEnumerator()` (to cancel an `await foreach`), but you
+        can pass it through `IAsyncEnumerable.WithCancellation(token)`
+    -   However, inside `GetAsyncEnumerator()` --- since it is generated
+        by the compiler --- to access the token internally you must use
+        `[EnumeratorCancellation]`
+
+``` csharp
+private static async IAsyncEnumerable<int> AsyncYieldDemo(
+        [EnumeratorCancellation] System.Threading.CancellationToken cancellationToken = default)
+```
+
+``` csharp
+var cts = new CancellationTokenSource();
+cts.Cancel();
+await foreach (var current in AsyncYieldDemo(cts.Token))
+```
+
+-   But when you already have an existing `IAsyncEnumerable`:
+
+``` csharp
+var seq = AsyncYieldDemo();
+var cts1 = new CancellationTokenSource();
+
+// To use CancellationToken when doing await foreach on seq
+// You can only pass it into GetEnumerator()
+
+Task.Run(async () => {
+    await foreach (var current in seq.WithCancellation(cts.Token))
+    {
+    }
+});
+
+await foreach (var current in seq.WithCancellation(cts1.Token))
+{
+}
+```
+
+-   `WithCancellation` only applies to the specific enumerator instance
+    created by that call.
+
+-   Output:
+
+
+    1
+    1
+    Exception due to cts Cancel
+    2 : because cts1 was not cancelled
