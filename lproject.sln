@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EfCore_sql_data", "EfCore_s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lproject.HostConfiguration", "lproject.HostConfiguration\lproject.HostConfiguration.csproj", "{2A95E67E-730A-49CE-ACB1-F5BE8623ACBF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lproject.Concurrency", "lproject.Concurrency\lproject.Concurrency.csproj", "{3A865944-D355-40CF-AF55-7FBA4AB560D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{2A95E67E-730A-49CE-ACB1-F5BE8623ACBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A95E67E-730A-49CE-ACB1-F5BE8623ACBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A95E67E-730A-49CE-ACB1-F5BE8623ACBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A865944-D355-40CF-AF55-7FBA4AB560D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A865944-D355-40CF-AF55-7FBA4AB560D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A865944-D355-40CF-AF55-7FBA4AB560D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A865944-D355-40CF-AF55-7FBA4AB560D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,5 +62,6 @@ Global
 		{7497B8B9-41EB-4B42-AEE1-FE09A2C63989} = {69B4DAD8-AC4D-4828-A4A4-53C86DAF8D45}
 		{FA04842F-1396-48E5-BB6D-1CF897679758} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{2A95E67E-730A-49CE-ACB1-F5BE8623ACBF} = {69B4DAD8-AC4D-4828-A4A4-53C86DAF8D45}
+		{3A865944-D355-40CF-AF55-7FBA4AB560D2} = {69B4DAD8-AC4D-4828-A4A4-53C86DAF8D45}
 	EndGlobalSection
 EndGlobal
