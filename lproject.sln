@@ -24,6 +24,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lproject.HostConfiguration"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lproject.Concurrency", "lproject.Concurrency\lproject.Concurrency.csproj", "{3A865944-D355-40CF-AF55-7FBA4AB560D2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "design-pattern", "design-pattern", "{8A491E6E-7A6B-4166-AEC0-94C183284516}"
+	ProjectSection(SolutionItems) = preProject
+		design-patterns\README.md = design-patterns\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asserts", "asserts", "{453C53B9-FDF0-4105-9AAC-13714C8741AF}"
+	ProjectSection(SolutionItems) = preProject
+		asserts\abstract-class.webp = asserts\abstract-class.webp
+		asserts\class.webp = asserts\class.webp
+		asserts\interface.webp = asserts\interface.webp
+		asserts\ki-hieu-uml.webp = asserts\ki-hieu-uml.webp
+		asserts\.DS_Store = asserts\.DS_Store
+		asserts\structure-mediator.png = asserts\structure-mediator.png
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lproject.Mediator", "design-patterns\lproject.Mediator\lproject.Mediator.csproj", "{051C565B-CBA6-4F4D-9A6C-FF57B4FE65B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +67,10 @@ Global
 		{3A865944-D355-40CF-AF55-7FBA4AB560D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A865944-D355-40CF-AF55-7FBA4AB560D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A865944-D355-40CF-AF55-7FBA4AB560D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{051C565B-CBA6-4F4D-9A6C-FF57B4FE65B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{051C565B-CBA6-4F4D-9A6C-FF57B4FE65B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{051C565B-CBA6-4F4D-9A6C-FF57B4FE65B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{051C565B-CBA6-4F4D-9A6C-FF57B4FE65B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,5 +85,7 @@ Global
 		{2A95E67E-730A-49CE-ACB1-F5BE8623ACBF} = {69B4DAD8-AC4D-4828-A4A4-53C86DAF8D45}
 		{3A865944-D355-40CF-AF55-7FBA4AB560D2} = {69B4DAD8-AC4D-4828-A4A4-53C86DAF8D45}
 		{787FF2AD-A7E3-4495-B10C-D071BC34420E} = {69B4DAD8-AC4D-4828-A4A4-53C86DAF8D45}
+		{453C53B9-FDF0-4105-9AAC-13714C8741AF} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{051C565B-CBA6-4F4D-9A6C-FF57B4FE65B2} = {8A491E6E-7A6B-4166-AEC0-94C183284516}
 	EndGlobalSection
 EndGlobal
