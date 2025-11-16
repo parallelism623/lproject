@@ -35,6 +35,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asserts", "asserts", "{453C
 		asserts\class.webp = asserts\class.webp
 		asserts\interface.webp = asserts\interface.webp
 		asserts\ki-hieu-uml.webp = asserts\ki-hieu-uml.webp
+		asserts\.DS_Store = asserts\.DS_Store
+		asserts\structure-mediator.png = asserts\structure-mediator.png
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lproject.Mediator", "design-patterns\lproject.Mediator\lproject.Mediator.csproj", "{051C565B-CBA6-4F4D-9A6C-FF57B4FE65B2}"
