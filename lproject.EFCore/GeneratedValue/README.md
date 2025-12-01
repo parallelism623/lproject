@@ -20,7 +20,7 @@ on insert and update by determining the **PropertySaveBehavior** state, but does
 * **Save**: 
   * Insert without a generated value property, EF core will always insert provided value.
   * Insert  with a generated value property, EF core will always, insert provided value, </br>
-  unless it's considered the default value of the property type (default value will not be sent to DB) 
+  unless it's considered the default value (not be column's default value on configuraiton) of the property type (default value will not be sent to DB) 
   * Update: EF core will update the column if a value different form original (in DbContext instances) is provided</br>
 * **Ignore**: 
   * Insert: EF core will always ignore the value.
