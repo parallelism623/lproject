@@ -25,10 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="database\data\follower\" />
-      <Folder Include="database\data\kafka\" />
-      <Folder Include="database\data\leader\" />
-      <Folder Include="database\data\zk\" />
+      <Folder Include="WALReplication\" />
     </ItemGroup>
 
     <ItemGroup>

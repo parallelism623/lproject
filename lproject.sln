@@ -53,6 +53,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "replication", "replication"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lproject.Data.Replication", "data\distributed data\replication\lproject.Data.Replication\lproject.Data.Replication.csproj", "{FA4E48F9-06F1-4408-8212-4A108523D4BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lproject.Span", "lproject.Span\lproject.Span.csproj", "{DFB6A3C9-C40D-4066-A560-E48CC44C49E4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,10 @@ Global
 		{FA4E48F9-06F1-4408-8212-4A108523D4BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA4E48F9-06F1-4408-8212-4A108523D4BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA4E48F9-06F1-4408-8212-4A108523D4BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFB6A3C9-C40D-4066-A560-E48CC44C49E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFB6A3C9-C40D-4066-A560-E48CC44C49E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFB6A3C9-C40D-4066-A560-E48CC44C49E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFB6A3C9-C40D-4066-A560-E48CC44C49E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -112,5 +118,6 @@ Global
 		{24729679-4137-402D-908C-CF06FED22F1C} = {07CCB2E9-7082-4154-802D-89C202A19BC2}
 		{EF548F8F-A248-46C1-9E43-06F504DD64E1} = {DDB5FFD5-6A36-487A-84B0-11639DDA1EFB}
 		{FA4E48F9-06F1-4408-8212-4A108523D4BF} = {EF548F8F-A248-46C1-9E43-06F504DD64E1}
+		{DFB6A3C9-C40D-4066-A560-E48CC44C49E4} = {69B4DAD8-AC4D-4828-A4A4-53C86DAF8D45}
 	EndGlobalSection
 EndGlobal
