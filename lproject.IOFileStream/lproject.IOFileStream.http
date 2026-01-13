@@ -1,0 +1,6 @@
+@lproject.IOFileStream_HostAddress = http://localhost:5254
+
+GET {{lproject.IOFileStream_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
