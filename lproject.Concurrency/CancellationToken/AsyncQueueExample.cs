@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace lproject.Concurrency.CancellationToken;
 
 public class AsyncQueueExample<T>
@@ -28,10 +30,12 @@ public class AsyncQueueExample<T>
 
     public void Enqueue(T item)
     {
+       
         lock (_lock)
         {
             if (_waitingQueueForProcessed.Count > 0)
             {
+                
                 var processor = _waitingQueueForProcessed.Dequeue();
                 if (processor.TrySetResult(item))
                 {
