@@ -1,0 +1,15 @@
+@lproject.Data.Replication_HostAddress = http://localhost:5184
+
+GET http://localhost:5184/orders
+Accept: application/json
+### Create a new order
+POST http://localhost:5184/orders
+Content-Type: application/json
+
+{
+  "customerEmail": "test@example.com",
+  "total": 1200,
+  "status": "Pending"
+}
+
+###
