@@ -1,11 +1,41 @@
-﻿version: '3.9'
+version: "3.9"
+
 services:
-  lproject.api:
-    image: lproject.api
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "FmP_@6@3@3_2019"
+    volumes:
+      - sql_data:/var/opt/mssql
+    networks:
+      - backend
+
+  api:
     build:
-      context: .
-      dockerfile: lproject.API/Dockerfile
-  lproject.EfCore.sql:
-    image: mcr.microsoft.com/mssql/server:latest
-    container_name: lproject.EfCore.sql
-    
+      context: ./Api
+      dockerfile: Dockerfile
+    container_name: webapi
+    ports:
+      - "5000:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: >
+        Server=sqlserver,1433;
+        Database=AppDb;
+        User Id=sa;
+        Password=Your_strong_Password123!;
+        TrustServerCertificate=True;
+    depends_on:
+      - sqlserver
+    networks:
+      - backend
+
+volumes:
+  sql_data:
+
+networks:
+  backend:

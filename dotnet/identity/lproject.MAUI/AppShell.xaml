@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="lproject.MAUI.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:lproject.MAUI"
+    xmlns:login="clr-namespace:lproject.MAUI.Features.LoginFeature"
+    xmlns:home="clr-namespace:lproject.MAUI.Features.HomeFeature"
+    Title="lproject.MAUI">
+
+
+    <ShellItem>
+        <ShellContent
+            Title="Login"
+            ContentTemplate="{DataTemplate login:LoginPage}"
+            Route="LoginPage" />
+    </ShellItem>
+    <ShellItem>
+        <ShellContent
+            Title="Home"
+            ContentTemplate="{DataTemplate home:HomePage}"
+            Route="HomePage" />
+    </ShellItem>
+</Shell>
